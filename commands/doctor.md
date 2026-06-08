@@ -1,5 +1,5 @@
 ---
-description: Run a plugin health self-check — validates components, manifest version sync, internal links, and environment setup.
+description: Run a plugin health self-check — validates environment, inventory, and component consistency (agents, commands, rules, skills, hooks).
 ---
 
 # Doctor
