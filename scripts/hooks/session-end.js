@@ -20,7 +20,7 @@ const {
   readFile,
   writeFile,
   replaceInFile,
-  log
+  log,
 } = require('../lib/utils');
 
 /**
@@ -48,11 +48,12 @@ function extractSessionSummary(transcriptPath) {
       if (entry.type === 'user' || entry.role === 'user' || entry.message?.role === 'user') {
         // Support both direct content and nested message.content (Claude Code JSONL format)
         const rawContent = entry.message?.content ?? entry.content;
-        const text = typeof rawContent === 'string'
-          ? rawContent
-          : Array.isArray(rawContent)
-            ? rawContent.map(c => (c && c.text) || '').join(' ')
-            : '';
+        const text =
+          typeof rawContent === 'string'
+            ? rawContent
+            : Array.isArray(rawContent)
+              ? rawContent.map((c) => (c && c.text) || '').join(' ')
+              : '';
         if (text.trim()) {
           userMessages.push(text.trim().slice(0, 200));
         }
@@ -98,7 +99,7 @@ function extractSessionSummary(transcriptPath) {
     userMessages: userMessages.slice(-10), // Last 10 user messages
     toolsUsed: Array.from(toolsUsed).slice(0, 20),
     filesModified: Array.from(filesModified).slice(0, 30),
-    totalMessages: userMessages.length
+    totalMessages: userMessages.length,
   };
 }
 
@@ -107,7 +108,7 @@ const MAX_STDIN = 1024 * 1024;
 let stdinData = '';
 process.stdin.setEncoding('utf8');
 
-process.stdin.on('data', chunk => {
+process.stdin.on('data', (chunk) => {
   if (stdinData.length < MAX_STDIN) {
     const remaining = MAX_STDIN - stdinData.length;
     stdinData += chunk.substring(0, remaining);
@@ -119,7 +120,7 @@ process.stdin.on('end', () => {
 });
 
 function runMain() {
-  main().catch(err => {
+  main().catch((err) => {
     console.error('[SessionEnd] Error:', err.message);
     process.exit(0);
   });
@@ -232,4 +233,3 @@ function buildSummarySection(summary) {
 
   return section;
 }
-

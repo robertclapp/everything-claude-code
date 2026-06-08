@@ -18,12 +18,12 @@ function validateCommands() {
     process.exit(0);
   }
 
-  const files = fs.readdirSync(COMMANDS_DIR).filter(f => f.endsWith('.md'));
+  const files = fs.readdirSync(COMMANDS_DIR).filter((f) => f.endsWith('.md'));
   let hasErrors = false;
   let warnCount = 0;
 
   // Build set of valid command names (without .md extension)
-  const validCommands = new Set(files.map(f => f.replace(/\.md$/, '')));
+  const validCommands = new Set(files.map((f) => f.replace(/\.md$/, '')));
 
   // Build set of valid agent names (without .md extension)
   const validAgents = new Set();
@@ -103,13 +103,17 @@ function validateCommands() {
     for (const match of skillRefs) {
       const refName = match[1];
       if (!validSkills.has(refName)) {
-        console.warn(`WARN: ${file} - references skill directory skills/${refName}/ (not found locally)`);
+        console.warn(
+          `WARN: ${file} - references skill directory skills/${refName}/ (not found locally)`
+        );
         warnCount++;
       }
     }
 
     // Check agent name references in workflow diagrams (e.g., "planner -> tdd-guide")
-    const workflowLines = contentNoCodeBlocks.matchAll(/^([a-z][-a-z0-9]*(?:\s*->\s*[a-z][-a-z0-9]*)+)$/gm);
+    const workflowLines = contentNoCodeBlocks.matchAll(
+      /^([a-z][-a-z0-9]*(?:\s*->\s*[a-z][-a-z0-9]*)+)$/gm
+    );
     for (const match of workflowLines) {
       const agents = match[1].split(/\s*->\s*/);
       for (const agent of agents) {

@@ -40,10 +40,12 @@ function box(title, content, width = 60) {
   const lines = content.split('\n');
   const top = `${BOX.topLeft}${BOX.horizontal} ${chalk.bold(chalk.cyan(title))} ${BOX.horizontal.repeat(Math.max(0, width - title.length - 5))}${BOX.topRight}`;
   const bottom = `${BOX.bottomLeft}${BOX.horizontal.repeat(width - 2)}${BOX.bottomRight}`;
-  const middle = lines.map(line => {
-    const padding = width - 4 - stripAnsi(line).length;
-    return `${BOX.vertical} ${line}${' '.repeat(Math.max(0, padding))} ${BOX.vertical}`;
-  }).join('\n');
+  const middle = lines
+    .map((line) => {
+      const padding = width - 4 - stripAnsi(line).length;
+      return `${BOX.vertical} ${line}${' '.repeat(Math.max(0, padding))} ${BOX.vertical}`;
+    })
+    .join('\n');
   return `${top}\n${middle}\n${bottom}`;
 }
 
@@ -53,14 +55,14 @@ function stripAnsi(str) {
 }
 
 function progressBar(percent, width = 30) {
-  const filled = Math.min(width, Math.max(0, Math.round(width * percent / 100)));
+  const filled = Math.min(width, Math.max(0, Math.round((width * percent) / 100)));
   const empty = width - filled;
   const bar = chalk.green('█'.repeat(filled)) + chalk.gray('░'.repeat(empty));
   return `${bar} ${chalk.bold(percent)}%`;
 }
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function animateProgress(label, steps, callback) {
@@ -89,10 +91,26 @@ class SkillCreateOutput {
     const subtitle = `Extracting patterns from ${chalk.cyan(this.repoName)}`;
 
     console.log('\n');
-    console.log(chalk.bold(chalk.magenta('╔════════════════════════════════════════════════════════════════╗')));
-    console.log(chalk.bold(chalk.magenta('║')) + chalk.bold('  🔮 ECC Skill Creator                                          ') + chalk.bold(chalk.magenta('║')));
-    console.log(chalk.bold(chalk.magenta('║')) + `     ${subtitle}${' '.repeat(Math.max(0, 59 - stripAnsi(subtitle).length))}` + chalk.bold(chalk.magenta('║')));
-    console.log(chalk.bold(chalk.magenta('╚════════════════════════════════════════════════════════════════╝')));
+    console.log(
+      chalk.bold(
+        chalk.magenta('╔════════════════════════════════════════════════════════════════╗')
+      )
+    );
+    console.log(
+      chalk.bold(chalk.magenta('║')) +
+        chalk.bold('  🔮 ECC Skill Creator                                          ') +
+        chalk.bold(chalk.magenta('║'))
+    );
+    console.log(
+      chalk.bold(chalk.magenta('║')) +
+        `     ${subtitle}${' '.repeat(Math.max(0, 59 - stripAnsi(subtitle).length))}` +
+        chalk.bold(chalk.magenta('║'))
+    );
+    console.log(
+      chalk.bold(
+        chalk.magenta('╚════════════════════════════════════════════════════════════════╝')
+      )
+    );
     console.log('');
   }
 
@@ -111,12 +129,17 @@ class SkillCreateOutput {
 
   analysisResults(data) {
     console.log('\n');
-    console.log(box('📊 Analysis Results', `
+    console.log(
+      box(
+        '📊 Analysis Results',
+        `
 ${chalk.bold('Commits Analyzed:')} ${chalk.yellow(data.commits)}
 ${chalk.bold('Time Range:')}       ${chalk.gray(data.timeRange)}
 ${chalk.bold('Contributors:')}     ${chalk.cyan(data.contributors)}
 ${chalk.bold('Files Tracked:')}    ${chalk.green(data.files)}
-`));
+`
+      )
+    );
   }
 
   patterns(patterns) {
@@ -137,9 +160,17 @@ ${chalk.bold('Files Tracked:')}    ${chalk.green(data.files)}
 
   instincts(instincts) {
     console.log('\n');
-    console.log(box('🧠 Instincts Generated', instincts.map((inst, i) =>
-      `${chalk.yellow(`${i + 1}.`)} ${chalk.bold(inst.name)} ${chalk.gray(`(${Math.round(inst.confidence * 100)}%)`)}`
-    ).join('\n')));
+    console.log(
+      box(
+        '🧠 Instincts Generated',
+        instincts
+          .map(
+            (inst, i) =>
+              `${chalk.yellow(`${i + 1}.`)} ${chalk.bold(inst.name)} ${chalk.gray(`(${Math.round(inst.confidence * 100)}%)`)}`
+          )
+          .join('\n')
+      )
+    );
   }
 
   output(skillPath, instinctsPath) {
@@ -156,12 +187,17 @@ ${chalk.bold('Files Tracked:')}    ${chalk.green(data.files)}
   }
 
   nextSteps() {
-    console.log(box('📋 Next Steps', `
+    console.log(
+      box(
+        '📋 Next Steps',
+        `
 ${chalk.yellow('1.')} Review the generated SKILL.md
 ${chalk.yellow('2.')} Import instincts: ${chalk.cyan('/instinct-import <path>')}
 ${chalk.yellow('3.')} View learned patterns: ${chalk.cyan('/instinct-status')}
 ${chalk.yellow('4.')} Evolve into skills: ${chalk.cyan('/evolve')}
-`));
+`
+      )
+    );
     console.log('\n');
   }
 
@@ -200,7 +236,7 @@ async function demo() {
     {
       name: 'Client/Server Component Split',
       trigger: 'when creating Next.js pages',
-      confidence: 0.90,
+      confidence: 0.9,
       evidence: 'Observed in markets/, premarkets/, portfolio/',
     },
     {
@@ -219,11 +255,11 @@ async function demo() {
 
   output.instincts([
     { name: 'pmx-conventional-commits', confidence: 0.85 },
-    { name: 'pmx-client-component-pattern', confidence: 0.90 },
+    { name: 'pmx-client-component-pattern', confidence: 0.9 },
     { name: 'pmx-service-layer', confidence: 0.85 },
-    { name: 'pmx-e2e-test-location', confidence: 0.90 },
+    { name: 'pmx-e2e-test-location', confidence: 0.9 },
     { name: 'pmx-package-manager', confidence: 0.95 },
-    { name: 'pmx-hot-path-caution', confidence: 0.90 },
+    { name: 'pmx-hot-path-caution', confidence: 0.9 },
   ]);
 
   output.output(

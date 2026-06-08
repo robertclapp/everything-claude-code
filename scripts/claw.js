@@ -42,9 +42,10 @@ function listSessions(dir) {
   if (!fs.existsSync(clawDir)) {
     return [];
   }
-  return fs.readdirSync(clawDir)
-    .filter(f => f.endsWith('.md'))
-    .map(f => f.replace(/\.md$/, ''));
+  return fs
+    .readdirSync(clawDir)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => f.replace(/\.md$/, ''));
 }
 
 function loadHistory(filePath) {
@@ -66,12 +67,15 @@ function appendTurn(filePath, role, content, timestamp) {
 // ─── Context & Delegation Pipeline ──────────────────────────────────────────
 
 function loadECCContext(skillList) {
-  const raw = skillList !== undefined ? skillList : (process.env.CLAW_SKILLS || '');
+  const raw = skillList !== undefined ? skillList : process.env.CLAW_SKILLS || '';
   if (!raw.trim()) {
     return '';
   }
 
-  const names = raw.split(',').map(s => s.trim()).filter(Boolean);
+  const names = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
   const chunks = [];
 
   for (const name of names) {
@@ -106,7 +110,7 @@ function askClaude(systemPrompt, history, userMessage) {
     encoding: 'utf8',
     stdio: ['pipe', 'pipe', 'pipe'],
     env: { ...process.env, CLAUDECODE: '' },
-    timeout: 300000 // 5 minute timeout
+    timeout: 300000, // 5 minute timeout
   });
 
   if (result.error) {
@@ -164,7 +168,11 @@ function main() {
   const sessionName = process.env.CLAW_SESSION || 'default';
 
   if (!isValidSessionName(sessionName)) {
-    console.error('Error: Invalid session name "' + sessionName + '". Use alphanumeric characters and hyphens only.');
+    console.error(
+      'Error: Invalid session name "' +
+        sessionName +
+        '". Use alphanumeric characters and hyphens only.'
+    );
     process.exit(1);
   }
 
@@ -174,8 +182,11 @@ function main() {
   const sessionPath = getSessionPath(sessionName);
   const eccContext = loadECCContext();
 
-  const requestedSkills = (process.env.CLAW_SKILLS || '').split(',').map(s => s.trim()).filter(Boolean);
-  const loadedCount = requestedSkills.filter(name =>
+  const requestedSkills = (process.env.CLAW_SKILLS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const loadedCount = requestedSkills.filter((name) =>
     fs.existsSync(path.join(process.cwd(), 'skills', name, 'SKILL.md'))
   ).length;
 
@@ -187,7 +198,7 @@ function main() {
 
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   });
 
   const prompt = () => {
@@ -259,7 +270,7 @@ module.exports = {
   handleHistory,
   handleSessions,
   handleHelp,
-  main
+  main,
 };
 
 if (require.main === module) {

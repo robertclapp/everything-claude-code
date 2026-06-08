@@ -230,7 +230,7 @@ async function readStdinJson(options = {}) {
     }, timeoutMs);
 
     process.stdin.setEncoding('utf8');
-    process.stdin.on('data', chunk => {
+    process.stdin.on('data', (chunk) => {
       if (data.length < maxSize) {
         data += chunk;
       }
@@ -343,7 +343,7 @@ function runCommand(cmd, options = {}) {
     const result = execSync(cmd, {
       encoding: 'utf8',
       stdio: ['pipe', 'pipe', 'pipe'],
-      ...options
+      ...options,
     });
     return { success: true, output: result.trim() };
   } catch (err) {
@@ -384,7 +384,7 @@ function getGitModifiedFiles(patterns = []) {
       }
     }
     if (compiled.length > 0) {
-      files = files.filter(file => compiled.some(regex => regex.test(file)));
+      files = files.filter((file) => compiled.some((regex) => regex.test(file)));
     }
   }
 
@@ -437,7 +437,10 @@ function countInFile(filePath, pattern) {
   try {
     if (pattern instanceof RegExp) {
       // Always create new RegExp to avoid shared lastIndex state; ensure global flag
-      regex = new RegExp(pattern.source, pattern.flags.includes('g') ? pattern.flags : pattern.flags + 'g');
+      regex = new RegExp(
+        pattern.source,
+        pattern.flags.includes('g') ? pattern.flags : pattern.flags + 'g'
+      );
     } else if (typeof pattern === 'string') {
       regex = new RegExp(pattern, 'g');
     } else {
@@ -525,5 +528,5 @@ module.exports = {
   commandExists,
   runCommand,
   isGitRepo,
-  getGitModifiedFiles
+  getGitModifiedFiles,
 };
