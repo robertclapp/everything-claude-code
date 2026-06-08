@@ -36,8 +36,9 @@ function validateAgents() {
     process.exit(0);
   }
 
-  const files = fs.readdirSync(AGENTS_DIR).filter(f => f.endsWith('.md'));
+  const files = fs.readdirSync(AGENTS_DIR).filter((f) => f.endsWith('.md'));
   let hasErrors = false;
+  const seenNames = new Map();
 
   for (const file of files) {
     const filePath = path.join(AGENTS_DIR, file);
@@ -58,7 +59,10 @@ function validateAgents() {
     }
 
     for (const field of REQUIRED_FIELDS) {
-      if (!frontmatter[field] || (typeof frontmatter[field] === 'string' && !frontmatter[field].trim())) {
+      if (
+        !frontmatter[field] ||
+        (typeof frontmatter[field] === 'string' && !frontmatter[field].trim())
+      ) {
         console.error(`ERROR: ${file} - Missing required field: ${field}`);
         hasErrors = true;
       }
@@ -66,8 +70,31 @@ function validateAgents() {
 
     // Validate model is a known value
     if (frontmatter.model && !VALID_MODELS.includes(frontmatter.model)) {
-      console.error(`ERROR: ${file} - Invalid model '${frontmatter.model}'. Must be one of: ${VALID_MODELS.join(', ')}`);
+      console.error(
+        `ERROR: ${file} - Invalid model '${frontmatter.model}'. Must be one of: ${VALID_MODELS.join(', ')}`
+      );
       hasErrors = true;
+    }
+
+    // Name must match the filename (lowercase-with-hyphens contract)
+    const expectedName = file.replace(/\.md$/, '');
+    if (frontmatter.name && frontmatter.name !== expectedName) {
+      console.error(
+        `ERROR: ${file} - name '${frontmatter.name}' does not match filename '${expectedName}'`
+      );
+      hasErrors = true;
+    }
+
+    // Names must be unique across the directory
+    if (frontmatter.name) {
+      if (seenNames.has(frontmatter.name)) {
+        console.error(
+          `ERROR: ${file} - duplicate name '${frontmatter.name}' (also in ${seenNames.get(frontmatter.name)})`
+        );
+        hasErrors = true;
+      } else {
+        seenNames.set(frontmatter.name, file);
+      }
     }
   }
 
