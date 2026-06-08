@@ -341,7 +341,7 @@ What the user receives.
 
 | Command | Purpose |
 |---------|---------|
-| `commit.md` | Create git commits |
+| `checkpoint.md` | Save a session checkpoint |
 | `code-review.md` | Review code changes |
 | `tdd.md` | TDD workflow |
 | `e2e.md` | E2E testing |

@@ -1,7 +1,5 @@
 # The Hidden Danger of OpenClaw
 
-![Header: The Hidden Danger of OpenClaw — Security Lessons from the Agent Frontier](./assets/images/openclaw/01-header.png)
-
 ---
 
 > **This is Part 3 of the Everything Claude Code guide series.** Part 1 is [The Shorthand Guide](./the-shortform-guide.md) (setup and configuration). Part 2 is [The Longform Guide](./the-longform-guide.md) (advanced patterns and workflows). This guide is about security — specifically, what happens when recursive agent infrastructure treats it as an afterthought.

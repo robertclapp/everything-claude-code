@@ -633,7 +633,7 @@ npm install ecc-universal
 | MCP 配置 | 环境变量插值语法已更新 | 完全 |
 | 钩子 | Cursor 中无等效项 | 参见替代方案 |
 
-详情请参阅 [.cursor/README.md](.cursor/README.md)，完整迁移指南请参阅 [.cursor/MIGRATION.md](.cursor/MIGRATION.md)。
+详情请参阅 [.opencode/README.md](../../.opencode/README.md)，完整迁移指南请参阅 [.opencode/MIGRATION.md](../../.opencode/MIGRATION.md)。
 
 ***
 
