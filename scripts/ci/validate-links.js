@@ -64,6 +64,9 @@ function isPlaceholder(target) {
 
 function checkFile(file, errors) {
   const content = stripCode(fs.readFileSync(file, 'utf-8'));
+  // LINK_RE is a module-level /g regex; reset state so a prior scan can't leak
+  // its lastIndex into this file (defensive against future early-exits).
+  LINK_RE.lastIndex = 0;
   let match;
   while ((match = LINK_RE.exec(content)) !== null) {
     let target = match[1].trim();

@@ -63,15 +63,17 @@ function checkInventory() {
 }
 
 function checkValidators() {
+  // Only the component validators are run here: they reference packaged
+  // directories (agents/skills/commands/rules/hooks) and therefore pass against
+  // an installed package as well as the repo. The repo-only gates (links,
+  // version-sync, llms.txt freshness) reference files that npm does not ship
+  // (docs/, guides), so they belong to `npm test`/CI, not the install health check.
   const validators = [
     ['agents', 'ci/validate-agents.js'],
     ['commands', 'ci/validate-commands.js'],
     ['rules', 'ci/validate-rules.js'],
     ['skills', 'ci/validate-skills.js'],
     ['hooks', 'ci/validate-hooks.js'],
-    ['links', 'ci/validate-links.js'],
-    ['version sync', 'ci/validate-version-sync.js'],
-    ['llms.txt', 'ci/validate-llms-txt.js'],
   ];
   for (const [label, rel] of validators) {
     const scriptPath = path.join(__dirname, rel);

@@ -49,7 +49,7 @@ function validateHookEntry(hook, label) {
     (typeof hook.command === 'string' && !hook.command.trim()) ||
     (Array.isArray(hook.command) &&
       (hook.command.length === 0 ||
-        !hook.command.every((s) => typeof s === 'string' && s.length > 0)))
+        !hook.command.every((s) => typeof s === 'string' && s.trim().length > 0)))
   ) {
     console.error(`ERROR: ${label} missing or invalid 'command' field`);
     hasErrors = true;
