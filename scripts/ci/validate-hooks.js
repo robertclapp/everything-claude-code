@@ -58,13 +58,24 @@ function validateHookEntry(hook, label) {
     const nodeEMatch = hook.command.match(/^node -e "(.*)"$/s);
     if (nodeEMatch) {
       try {
-        new vm.Script(
-          nodeEMatch[1]
-            .replace(/\\\\/g, '\\')
-            .replace(/\\"/g, '"')
-            .replace(/\\n/g, '\n')
-            .replace(/\\t/g, '\t')
-        );
+        // Single-pass unescape so an escaped backslash isn't re-interpreted by
+        // a later replacement (e.g. "\\n" must stay backslash+n, not a newline).
+        // Unrecognized escapes (e.g. regex \^ \. \d) are left intact.
+        const unescaped = nodeEMatch[1].replace(/\\(.)/g, (match, ch) => {
+          switch (ch) {
+            case '\\':
+              return '\\';
+            case '"':
+              return '"';
+            case 'n':
+              return '\n';
+            case 't':
+              return '\t';
+            default:
+              return match;
+          }
+        });
+        new vm.Script(unescaped);
       } catch (syntaxErr) {
         console.error(`ERROR: ${label} has invalid inline JS: ${syntaxErr.message}`);
         hasErrors = true;
