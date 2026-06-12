@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hardened a test source-patching regex to tolerate reformatting.
 - Corrected a stale `commit.md` reference in `CONTRIBUTING.md`.
 
+### Security
+
+- `release.yml` now passes `github.ref_name` through an `env:` variable in the tag-validation step instead of interpolating it directly into the shell, removing a workflow script-injection sink (git tag names may contain shell metacharacters).
+
 ## [1.7.0] — 2026-02
 
 - Codex app + CLI support; installer targeting and Codex docs.

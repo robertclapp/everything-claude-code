@@ -19,8 +19,12 @@ jobs:
           fetch-depth: 0
 
       - name: Validate version tag
+        env:
+          # Pass through env to avoid interpolating untrusted ref names directly
+          # into the shell (tag names can contain shell metacharacters).
+          TAG_NAME: ${{ github.ref_name }}
         run: |
-          if ! [[ "${{ github.ref_name }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if ! [[ "${TAG_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Invalid version tag format. Expected vX.Y.Z"
             exit 1
           fi
