@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - `release.yml` now passes `github.ref_name` through an `env:` variable in the tag-validation step instead of interpolating it directly into the shell, removing a workflow script-injection sink (git tag names may contain shell metacharacters).
+- CodeQL analysis is scoped to shipped runtime code (`scripts/`) via `.github/codeql/codeql-config.yml`, excluding test fixtures and vendored files (not an attack surface, not published), and uses the default high-precision query suite instead of `security-and-quality` to keep findings actionable.
 
 ## [1.7.0] — 2026-02
 

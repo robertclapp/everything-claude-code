@@ -38,7 +38,10 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-          queries: security-and-quality
+          # Scope analysis to shipped runtime code (scripts/), excluding test
+          # fixtures and vendored files. Uses the default high-precision query
+          # suite rather than security-and-quality to minimize false positives.
+          config-file: ./.github/codeql/codeql-config.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3

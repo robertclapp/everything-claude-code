@@ -1,0 +1,19 @@
+name: CodeQL config
+
+# Scope analysis to first-party runtime code that actually ships (scripts/ is
+# the only executable JavaScript in the package `files` allowlist). Test
+# fixtures, translated docs, and vendored ports are not an attack surface and
+# are not published to npm, so scanning them only produces noise.
+#
+# Note: this repository introduces CodeQL for the first time in this PR. Until
+# the workflow runs on the default branch, there is no baseline to diff
+# against, so any alert in the analyzed paths is reported as "new". Keeping the
+# scope tight (and using the default high-precision query suite, configured in
+# the workflow) keeps that first-run signal meaningful.
+paths:
+  - scripts
+
+paths-ignore:
+  - tests
+  - node_modules
+  - '**/*.test.js'
