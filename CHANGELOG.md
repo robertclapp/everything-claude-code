@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `/doctor` command + `scripts/doctor.js` plugin-health self-check.
 - New `rust-reviewer` and `dependency-auditor` agents, and `/rust-review` command.
 - Supply-chain scanning: Dependabot config and CodeQL workflow.
+- `docs/PRODUCTION_GUIDE.md` — step-by-step guide for adopting the plugin in production (install, rules, MCP/secrets, cost controls, team rollout, security, CI, and verification).
 
 ### Fixed
 
