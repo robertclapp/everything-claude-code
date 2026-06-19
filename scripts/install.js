@@ -105,11 +105,16 @@ function installCursor(languages) {
   const cursorRules = path.join(CURSOR_SRC, 'rules');
   const destRules = path.join(destDir, 'rules');
 
+  // Read the rules directory once and reuse the listing for the common and
+  // per-language copies (avoids re-listing the same directory once per language).
+  const cursorRulesExist = fs.existsSync(cursorRules);
+  const cursorRuleFiles = cursorRulesExist ? fs.readdirSync(cursorRules) : [];
+
   // Common rules (flattened names like common-coding-style.md)
-  if (fs.existsSync(cursorRules)) {
+  if (cursorRulesExist) {
     info(`Installing common rules -> ${destRules}/`);
     fs.mkdirSync(destRules, { recursive: true });
-    for (const f of fs.readdirSync(cursorRules)) {
+    for (const f of cursorRuleFiles) {
       if (f.startsWith('common-') && f.endsWith('.md')) {
         fs.copyFileSync(path.join(cursorRules, f), path.join(destRules, f));
       }
@@ -124,9 +129,9 @@ function installCursor(languages) {
       );
       continue;
     }
-    if (!fs.existsSync(cursorRules)) continue;
+    if (!cursorRulesExist) continue;
     let found = false;
-    for (const f of fs.readdirSync(cursorRules)) {
+    for (const f of cursorRuleFiles) {
       if (f.startsWith(`${lang}-`) && f.endsWith('.md')) {
         fs.copyFileSync(path.join(cursorRules, f), path.join(destRules, f));
         found = true;
