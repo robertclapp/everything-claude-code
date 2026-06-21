@@ -20,9 +20,14 @@ const testFiles = [
   'hooks/suggest-compact.test.js',
   'integration/hooks.test.js',
   'ci/validators.test.js',
+  'ci/validate-links.test.js',
+  'ci/validate-version-sync.test.js',
+  'ci/validate-llms-txt.test.js',
   'scripts/claw.test.js',
   'scripts/setup-package-manager.test.js',
   'scripts/skill-create-output.test.js',
+  'scripts/generate-llms-txt.test.js',
+  'scripts/doctor.test.js',
 ];
 
 const BOX_W = 58; // inner width between ║ delimiters
