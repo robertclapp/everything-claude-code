@@ -8,7 +8,16 @@ const path = require('path');
 const vm = require('vm');
 
 const HOOKS_FILE = path.join(__dirname, '../../hooks/hooks.json');
-const VALID_EVENTS = ['PreToolUse', 'PostToolUse', 'PreCompact', 'SessionStart', 'SessionEnd', 'Stop', 'Notification', 'SubagentStop'];
+const VALID_EVENTS = [
+  'PreToolUse',
+  'PostToolUse',
+  'PreCompact',
+  'SessionStart',
+  'SessionEnd',
+  'Stop',
+  'Notification',
+  'SubagentStop',
+];
 
 /**
  * Validate a single hook entry has required fields and valid inline JS
@@ -34,7 +43,14 @@ function validateHookEntry(hook, label) {
     hasErrors = true;
   }
 
-  if (!hook.command || (typeof hook.command !== 'string' && !Array.isArray(hook.command)) || (typeof hook.command === 'string' && !hook.command.trim()) || (Array.isArray(hook.command) && (hook.command.length === 0 || !hook.command.every(s => typeof s === 'string' && s.length > 0)))) {
+  if (
+    !hook.command ||
+    (typeof hook.command !== 'string' && !Array.isArray(hook.command)) ||
+    (typeof hook.command === 'string' && !hook.command.trim()) ||
+    (Array.isArray(hook.command) &&
+      (hook.command.length === 0 ||
+        !hook.command.every((s) => typeof s === 'string' && s.trim().length > 0)))
+  ) {
     console.error(`ERROR: ${label} missing or invalid 'command' field`);
     hasErrors = true;
   } else if (typeof hook.command === 'string') {
@@ -42,7 +58,24 @@ function validateHookEntry(hook, label) {
     const nodeEMatch = hook.command.match(/^node -e "(.*)"$/s);
     if (nodeEMatch) {
       try {
-        new vm.Script(nodeEMatch[1].replace(/\\\\/g, '\\').replace(/\\"/g, '"').replace(/\\n/g, '\n').replace(/\\t/g, '\t'));
+        // Single-pass unescape so an escaped backslash isn't re-interpreted by
+        // a later replacement (e.g. "\\n" must stay backslash+n, not a newline).
+        // Unrecognized escapes (e.g. regex \^ \. \d) are left intact.
+        const unescaped = nodeEMatch[1].replace(/\\(.)/g, (match, ch) => {
+          switch (ch) {
+            case '\\':
+              return '\\';
+            case '"':
+              return '"';
+            case 'n':
+              return '\n';
+            case 't':
+              return '\t';
+            default:
+              return match;
+          }
+        });
+        new vm.Script(unescaped);
       } catch (syntaxErr) {
         console.error(`ERROR: ${label} has invalid inline JS: ${syntaxErr.message}`);
         hasErrors = true;

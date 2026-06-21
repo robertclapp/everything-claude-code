@@ -1,7 +1,5 @@
 # The Shorthand Guide to Securing Your Agent
 
-![Header: The Shorthand Guide to Securing Your Agent](./assets/images/security/00-header.png)
-
 ---
 
 **I built the most-forked Claude Code configuration on GitHub. 50K+ stars, 6K+ forks. That also made it the biggest target.**

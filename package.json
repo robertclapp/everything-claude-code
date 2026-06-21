@@ -67,6 +67,9 @@
     "scripts/hooks/",
     "scripts/lib/",
     "scripts/claw.js",
+    "scripts/install.js",
+    "scripts/generate-llms-txt.js",
+    "scripts/doctor.js",
     "scripts/setup-package-manager.js",
     "scripts/skill-create-output.js",
     "skills/",
@@ -77,19 +80,27 @@
     "llms.txt"
   ],
   "bin": {
-    "ecc-install": "install.sh"
+    "ecc-install": "scripts/install.js"
   },
   "scripts": {
     "postinstall": "echo '\\n  ecc-universal installed!\\n  Run: npx ecc-install typescript\\n  Docs: https://github.com/affaan-m/everything-claude-code\\n'",
     "lint": "eslint . && markdownlint '**/*.md' --ignore node_modules",
+    "format": "prettier --write \"scripts/**/*.js\" \"tests/**/*.js\"",
+    "format:check": "prettier --check \"scripts/**/*.js\" \"tests/**/*.js\"",
     "claw": "node scripts/claw.js",
-    "test": "node scripts/ci/validate-agents.js && node scripts/ci/validate-commands.js && node scripts/ci/validate-rules.js && node scripts/ci/validate-skills.js && node scripts/ci/validate-hooks.js && node tests/run-all.js"
+    "llms": "node scripts/generate-llms-txt.js",
+    "doctor": "node scripts/doctor.js",
+    "validate": "node scripts/ci/validate-agents.js && node scripts/ci/validate-commands.js && node scripts/ci/validate-rules.js && node scripts/ci/validate-skills.js && node scripts/ci/validate-hooks.js && node scripts/ci/validate-links.js && node scripts/ci/validate-version-sync.js && node scripts/ci/validate-llms-txt.js",
+    "test": "npm run validate && node tests/run-all.js",
+    "coverage": "c8 --reporter=text-summary --reporter=lcov node tests/run-all.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "c8": "10.1.3",
     "eslint": "^9.39.2",
     "globals": "^17.1.0",
-    "markdownlint-cli": "^0.47.0"
+    "markdownlint-cli": "^0.47.0",
+    "prettier": "3.4.2"
   },
   "engines": {
     "node": ">=18"

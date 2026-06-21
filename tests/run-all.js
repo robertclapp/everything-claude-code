@@ -22,7 +22,7 @@ const testFiles = [
   'ci/validators.test.js',
   'scripts/claw.test.js',
   'scripts/setup-package-manager.test.js',
-  'scripts/skill-create-output.test.js'
+  'scripts/skill-create-output.test.js',
 ];
 
 const BOX_W = 58; // inner width between ║ delimiters
@@ -49,7 +49,7 @@ for (const testFile of testFiles) {
 
   const result = spawnSync('node', [testPath], {
     encoding: 'utf8',
-    stdio: ['pipe', 'pipe', 'pipe']
+    stdio: ['pipe', 'pipe', 'pipe'],
   });
 
   const stdout = result.stdout || '';
@@ -75,7 +75,9 @@ console.log(boxLine('                     Final Results'));
 console.log('╠' + '═'.repeat(BOX_W) + '╣');
 console.log(boxLine(`  Total Tests: ${String(totalTests).padStart(4)}`));
 console.log(boxLine(`  Passed:      ${String(totalPassed).padStart(4)}  ✓`));
-console.log(boxLine(`  Failed:      ${String(totalFailed).padStart(4)}  ${totalFailed > 0 ? '✗' : ' '}`));
+console.log(
+  boxLine(`  Failed:      ${String(totalFailed).padStart(4)}  ${totalFailed > 0 ? '✗' : ' '}`)
+);
 console.log('╚' + '═'.repeat(BOX_W) + '╝');
 
 process.exit(totalFailed > 0 ? 1 : 0);

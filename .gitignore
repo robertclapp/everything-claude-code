@@ -24,6 +24,10 @@ node_modules/
 # Build output
 dist/
 
+# Test coverage (coverage/ from c8; .nyc_output/ from nyc, kept defensively)
+coverage/
+.nyc_output/
+
 # Python
 __pycache__/
 *.pyc

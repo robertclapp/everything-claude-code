@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
@@ -46,7 +48,9 @@ jobs:
         if: matrix.pm == 'pnpm'
         uses: pnpm/action-setup@v4
         with:
-          version: latest
+          # Pin to v9 (supports Node 18+). pnpm 'latest' (11.x) requires
+          # Node >=22.13 and crashes on the Node 18/20 matrix legs.
+          version: 9
 
       - name: Setup Bun
         if: matrix.pm == 'bun'
@@ -150,6 +154,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -176,6 +182,18 @@ jobs:
         run: node scripts/ci/validate-rules.js
         continue-on-error: false
 
+      - name: Validate internal links
+        run: node scripts/ci/validate-links.js
+        continue-on-error: false
+
+      - name: Validate version sync
+        run: node scripts/ci/validate-version-sync.js
+        continue-on-error: false
+
+      - name: Validate llms.txt is current
+        run: node scripts/ci/validate-llms-txt.js
+        continue-on-error: false
+
   security:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -184,6 +202,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -202,6 +222,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -214,5 +236,37 @@ jobs:
       - name: Run ESLint
         run: npx eslint scripts/**/*.js tests/**/*.js
 
+      - name: Check formatting (Prettier)
+        run: npm run format:check
+
       - name: Run markdownlint
         run: npx markdownlint "agents/**/*.md" "skills/**/*.md" "commands/**/*.md" "rules/**/*.md"
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/

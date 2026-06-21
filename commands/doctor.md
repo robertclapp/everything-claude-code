@@ -1,0 +1,39 @@
+---
+description: Run a plugin health self-check — validates environment, inventory, and component consistency (agents, commands, rules, skills, hooks).
+---
+
+# Doctor
+
+Runs `everything-claude-code`'s health self-check to confirm the plugin is
+installed and internally consistent.
+
+## What This Command Does
+
+1. **Environment**: Confirms Node.js >= 18 and that a package manager is detectable
+2. **Inventory**: Confirms agents, skills, and commands are present
+3. **Validation**: Runs every component validator (agents, commands, rules, skills, hooks)
+4. **Report**: Prints a per-check pass/fail summary and exits non-zero if anything is broken
+
+> Repo-only quality gates (internal-link, version-sync, and `llms.txt` freshness
+> checks) are intentionally excluded here — they reference files npm does not
+> ship (`docs/`, guides) and are enforced by `npm test`/CI instead.
+
+## Usage
+
+```bash
+npm run doctor
+# or directly
+node scripts/doctor.js
+```
+
+## When to Use
+
+- After installing or updating the plugin
+- After adding a new agent, skill, or command
+- When something isn't loading and you want a fast integrity check
+- In CI as a smoke test before publishing
+
+## Related
+
+- Script: `scripts/doctor.js`
+- Validators: `scripts/ci/validate-*.js`

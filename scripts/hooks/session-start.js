@@ -16,7 +16,7 @@ const {
   ensureDir,
   readFile,
   log,
-  output
+  output,
 } = require('../lib/utils');
 const { getPackageManager, getSelectionPrompt } = require('../lib/package-manager');
 const { listAliases } = require('../lib/session-aliases');
@@ -56,7 +56,7 @@ async function main() {
   const aliases = listAliases({ limit: 5 });
 
   if (aliases.length > 0) {
-    const aliasNames = aliases.map(a => a.name).join(', ');
+    const aliasNames = aliases.map((a) => a.name).join(', ');
     log(`[SessionStart] ${aliases.length} session alias(es) available: ${aliasNames}`);
     log(`[SessionStart] Use /sessions load <alias> to continue a previous session`);
   }
@@ -74,7 +74,7 @@ async function main() {
   process.exit(0);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('[SessionStart] Error:', err.message);
   process.exit(0); // Don't block on errors
 });

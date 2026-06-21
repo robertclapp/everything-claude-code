@@ -1,0 +1,14 @@
+# Generated / vendored
+node_modules/
+.opencode/dist/
+package-lock.json
+llms.txt
+
+# Markdown is governed by markdownlint, not Prettier (avoids conflicting rules)
+**/*.md
+
+# Parallel harness ports with their own formatting
+.cursor/
+.codex/
+.opencode/
+.agents/

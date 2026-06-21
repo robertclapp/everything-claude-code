@@ -1,4 +1,4 @@
-**言語:** English | [简体中文](../../README.zh-CN.md) | [繁體中文](docs/zh-TW/README.md) | [日本語](docs/ja-JP/README.md)
+**言語:** [English](../../README.md) | [简体中文](../../README.zh-CN.md) | [繁體中文](../zh-TW/README.md) | [日本語](README.md)
 
 # Everything Claude Code
 
@@ -21,7 +21,7 @@
 
 **🌐 言語 / Language / 語言**
 
-[**English**](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](docs/zh-TW/README.md) | [日本語](docs/ja-JP/README.md)
+[**English**](../../README.md) | [简体中文](../../README.zh-CN.md) | [繁體中文](../zh-TW/README.md) | [日本語](README.md)
 
 </div>
 
@@ -633,7 +633,7 @@ npm install ecc-universal
 | MCP Config | 環境補間構文更新 | 完全 |
 | Hooks | Cursor相当なし | 別の方法を参照 |
 
-詳細は[.cursor/README.md](.cursor/README.md)および完全な移行ガイドは[.cursor/MIGRATION.md](.cursor/MIGRATION.md)を参照してください。
+詳細は[.opencode/README.md](../../.opencode/README.md)および完全な移行ガイドは[.opencode/MIGRATION.md](../../.opencode/MIGRATION.md)を参照してください。
 
 ---
 

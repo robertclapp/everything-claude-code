@@ -490,6 +490,8 @@ Duplicate hooks file detected: ./hooks/hooks.json resolves to already-loaded fil
 
 ## 📥 Installation
 
+> 📘 **Adopting this in production?** Follow the [Production Guide](docs/PRODUCTION_GUIDE.md) — a step-by-step checklist for install, rules, MCP/secrets, cost controls, team rollout, security, and CI.
+
 ### Option 1: Install as Plugin (Recommended)
 
 The easiest way to use this repo - install as a Claude Code plugin:

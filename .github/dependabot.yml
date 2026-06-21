@@ -1,0 +1,36 @@
+version: 2
+updates:
+  # Root npm devDependencies (eslint, prettier, markdownlint, c8, etc.)
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+    commit-message:
+      prefix: chore
+      include: scope
+
+  # OpenCode plugin package
+  - package-ecosystem: npm
+    directory: /.opencode
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - opencode
+    commit-message:
+      prefix: chore
+      include: scope
+
+  # GitHub Actions versions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - ci
+    commit-message:
+      prefix: ci

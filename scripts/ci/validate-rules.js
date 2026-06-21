@@ -14,8 +14,7 @@ function validateRules() {
     process.exit(0);
   }
 
-  const files = fs.readdirSync(RULES_DIR, { recursive: true })
-    .filter(f => f.endsWith('.md'));
+  const files = fs.readdirSync(RULES_DIR, { recursive: true }).filter((f) => f.endsWith('.md'));
   let hasErrors = false;
   let validatedCount = 0;
 

@@ -1,0 +1,22 @@
+# Normalize line endings: store as LF in the repo, check out native on the
+# working tree. Prevents CRLF/LF churn across Windows/macOS/Linux contributors
+# and keeps the cross-platform Node scripts byte-stable.
+* text=auto eol=lf
+
+# Scripts must always be LF (they carry shebangs and run on POSIX).
+*.sh text eol=lf
+*.js text eol=lf
+
+# Treat these as binary (no EOL normalization, no diff noise).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+
+# Collapse generated/lock files in diffs and language-stats.
+package-lock.json linguist-generated=true
+llms.txt linguist-generated=true
